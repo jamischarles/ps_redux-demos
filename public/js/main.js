@@ -1,17 +1,8 @@
-System.transpiler = 'babel';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-var imports = [];
-
-var Second = System.import('./js/components/second.js')
-var Third = System.import('./js/components/third.js')
-
-imports.push(Second);
-imports.push(Third);
-
-// import * as second from './components/second.js';
-
-
-
+import Second from './components/second.js';
+import Third from './components/third.js';
 
 var MainComponent = React.createClass({
   render() {
@@ -25,17 +16,4 @@ var MainComponent = React.createClass({
 });
 
 
-Promise.all(imports).then(function(arrayOfImports) {
-  [Second, Third] = arrayOfImports;
-  // FIXME: Find a way to remove this...
-  Second = Second.default;
-  Third = Third.default;
-  // console.log('arrayOfImports', arrayOfImports);
-  // console.log('Second', Second);
-  // console.log('Third', Third);
-
-  ReactDOM.render(
-    <MainComponent />,
-    document.getElementById('container')
-  );
-});
+ReactDOM.render(<MainComponent />, document.getElementById('container'));

@@ -1,3 +1,5 @@
+import React from 'react';
+
 console.log('second');
 
 var Second = React.createClass({

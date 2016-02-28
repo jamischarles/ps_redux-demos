@@ -1,3 +1,5 @@
+import React from 'react';
+
 console.log('third');
 
 var Third = React.createClass({
@@ -11,4 +13,3 @@ var Third = React.createClass({
 });
 
 export default Third;
-
