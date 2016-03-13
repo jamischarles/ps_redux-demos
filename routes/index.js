@@ -6,28 +6,25 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+/**
+ * JSON Routes
+ */
 router.get('/api/conversion', function(req, res, next) {
-  // randomize the exchange rate
-  var max = 100; // ms
-  var min = 0.1;
-  var xRate = Math.floor(Math.random() * (max - min)) + min;
 
   var originAmount = req.query.originAmount;
   var originCurrency = req.query.originCurrency;
   var destAmount = req.query.destAmount;
   var destCurrency = req.query.destCurrency;
+  var calcOriginAmount  = req.query.calcOriginAmount === 'true';
+  var xRate = getXRate(originCurrency, destCurrency);
 
-  // if both currencies are the same, exchange rate will be 1.
-  if (originCurrency === destCurrency) {
-    xRate = 1;
-  }
 
-  if (!originAmount) {
-    originAmount = (parseInt(destAmount, 10) * xRate).toFixed(2);
+  // decide whether to convert TO or FROM originAmount
+  if (calcOriginAmount) {
+    originAmount = (parseFloat(destAmount, 10) / xRate).toFixed(2);
   } else {
-    destAmount = (parseInt(originAmount, 10) / xRate).toFixed(2);
+    destAmount = (parseFloat(originAmount, 10) * xRate).toFixed(2);
   }
-
 
   // random timeout to simulate api response times
   setTimeout(function(){
@@ -35,11 +32,73 @@ router.get('/api/conversion', function(req, res, next) {
   }, getRandomResponseTime())
 });
 
+router.get('/api/fees', function(req, res, next) {
+  var originAmount = req.query.originAmount;
+  var originCurrency = req.query.originCurrency;
+  var destCurrency = req.query.destCurrency;
+
+  var feeAmount = getFee(originAmount, originCurrency, destCurrency);
+
+  // random timeout to simulate api response times
+  setTimeout(function(){
+    res.json({originAmount: originAmount, originCurrency: originCurrency, destCurrency: destCurrency, feeAmount: feeAmount  })
+  }, getRandomResponseTime())
+
+});
+
+/**
+ * Helper functions
+ */
+
+function getXRate(originCurrency, destCurrency) {
+  var rate = 1;
+
+  // if both currencies are the same, exchange rate will be 1.
+  if (originCurrency === destCurrency) {
+    return rate;
+  }
+
+  rate = xRates[originCurrency + '_' + destCurrency];
+  if (!rate) {
+    console.log('ERROR: Exchange rate missing for ' + originCurrency + ' -> ' + destCurrency)
+  }
+
+  return rate;
+}
+
+// Returns fee amount (feePercentage of originAmount for transaction)
+function getFee(originAmount, originCurrency, destCurrency) {
+  var feePerc = 2;
+
+  feePerc = fees[originCurrency + '_' + destCurrency];
+
+  if (!feePerc) {
+    return console.log('ERROR: Fee % missing for ' + originCurrency + ' -> ' + destCurrency)
+  }
+
+  return originAmount * feePerc / 100;
+
+}
 
 function getRandomResponseTime() {
   var max = 1200; // ms
   var min = 150;
   return Math.floor(Math.random() * (max - min)) + min;
+}
+
+// TODO: get some real values here
+// bogus values...
+var xRates = {
+  USD_EUR: 1.5,
+  EUR_USD: 1 / 1.5
+}
+
+// in percentages
+var fees = {
+  USD_USD: 2,
+  USD_EUR: 15,
+  EUR_USD: 2,
+  EUR_EUR: 5
 }
 
 module.exports = router;
