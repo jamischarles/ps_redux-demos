@@ -69,14 +69,31 @@ var Conversion = React.createClass({
         // we have to use the callback so `this.state` will reflect the proper values
         // when they are called in _makeConversionAjaxCall()
         this.setState(obj, function() {
-            this.makeConversionAjaxCall({}, function(resp){
+            // get new dest amount & conversion rates
+            that.makeConversionAjaxCall({}, function(resp){
                 that.setState({
                     originAmount: resp.originAmount,
                     destinationAmount: resp.destAmount,
                     conversionRate: resp.xRate
                 })
+
+                // get the new fee & total amount
+                that.makeFeeAjaxCall({
+                    originAmount: resp.originAmount,
+                    originCurrency: that.state.originCurrency,
+                    destCurrency: that.state.destinationCurrency
+
+                }, function(response){
+                    that.setState({
+                        feeAmount: response.feeAmount
+                    })
+
+                    that.calcNewTotal();
+                });
             })
+
         })
+
 
     },
     handleOriginAmountChange(event) {
@@ -101,7 +118,7 @@ var Conversion = React.createClass({
             })
         });
 
-        // get the new fee amount
+        // get the new fee & total amount
         this.makeFeeAjaxCall({
             originAmount: newAmount,
             originCurrency: this.state.originCurrency,
@@ -138,7 +155,22 @@ var Conversion = React.createClass({
             }
 
             that.setState(newState)
+
+            // get the new fee & total amount
+            that.makeFeeAjaxCall({
+                originAmount: resp.originAmount,
+                originCurrency: that.state.originCurrency,
+                destCurrency: that.state.destinationCurrency
+
+            }, function(resp){
+                that.setState({
+                    feeAmount: resp.feeAmount
+                })
+
+                that.calcNewTotal();
+            });
         })
+
     },
     // this is debounced in `componentDidMount()` as this.makeConversionAjaxCall()
     _makeConversionAjaxCall(data, callback) {
