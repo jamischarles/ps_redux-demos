@@ -1,33 +1,30 @@
+/**
+ * This file isn't strictly necessary but can be a really nice way of separating ajax calls out.
+ * Any data massaging before or after a call could happen here.
+ * I like to use fetch() here, but wanted to keep this example really simple.
+ */
+// we could easily use something other than jquery here
 import $ from 'jquery';
 
 
 export function getConversionRate(payload, callback) {
 	var url = '/api/conversion';
 
-
-	// var originCurrency = this.state.originCurrency;
-	// var destCurrency = this.state.destinationCurrency;
-    //
-	// var payload = {
-	// 	originAmount: data.newValue || this.props.originAmount,
-	// 	destAmount: data.newValue || this.state.destAmount,
-	// 	originCurrency: originCurrency,
-	// 	destCurrency: destCurrency,
-	// 	calcOriginAmount: false
-	// }
-
-	// determine whether we need to calc origin or dest amount
-	// if (data.currentlyEditing === 'dest') {
-	// 	payload.calcOriginAmount = true
-	// }
-
-	// ajax call for destination amount
-	// originCurrency, destCurrency, originAmount
 	$.ajax({
-		method: 'GET',
-		url: url,
-		data: payload
+	    method: 'GET',
+	    url: url,
+	    data: payload
 	})
-	.done(callback)
+	.done(callback);
+}
 
+export function getFees(payload, callback) {
+    var url = '/api/fees';
+
+    $.ajax({
+	method: 'GET',
+	url: url,
+	data: payload
+    })
+    .done(callback);
 }

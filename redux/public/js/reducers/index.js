@@ -4,29 +4,13 @@
  * Combines all the reducers so they can be exposed as one data structure.
  *
  */
-import { combineReducers } from 'redux'
-// import currencyCodes from './currencyCodes'
-// import fees from './fees'
-// import loading from './loading'
-// import countries from './countries'
-// import contacts from './contacts'
-// import errors from './errors'
-import transactions from './transactions'
-// import user from './user'
-// import userActions from './userActions'
-// import { routeReducer as routing } from 'redux-simple-router'
+import { combineReducers } from 'redux';
+import transactions from './transactions';
+import currencyList from './currencyList';
 
 let rootReducer = combineReducers({
-	// routing,
-	// errors,
-	// countries,
-	// contacts,
-	// currencyCodes,
-	// fees,
-	// loading,
-	transactions
-	// user,
-	// userActions,
+	transactions: transactions,
+	currencyList: currencyList
 })
 
 export default rootReducer

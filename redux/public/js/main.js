@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
 
 import Conversion from './components/conversion.js';
-import store from './stores/configureStore'
+// this instantiates the redux store
+import store from './stores/configureStore';
 
-
-var total = 16.50;
 
 var MainComponent = React.createClass({
   render() {
@@ -19,6 +18,8 @@ var MainComponent = React.createClass({
 });
 
 
+// Provider is just a wrapper around the main component which will pass in the
+// redux store to the component.
 ReactDOM.render(
   <Provider store={store}>
     <MainComponent />

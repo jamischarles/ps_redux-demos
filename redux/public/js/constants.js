@@ -7,20 +7,20 @@ import keyMirror from 'keymirror';
 // keyMirror isn't strictly needed. It's sugar to have key & value be the same.
 // ie: CHANGE_AMOUNT: 'CHANGE_AMOUNT'
 //
-// FIXME: Explain why actions are helpful...
+// Actions are extremely helpful to have very consistent action names throughout the app.
 export const ActionTypes = keyMirror({
 
+	// UI input action changes
 	CHANGE_ORIGIN_AMOUNT: null,
+	CHANGE_ORIGIN_CURRENCY: null,
+
+	CHANGE_DESTINATION_AMOUNT: null,
+	CHANGE_DESTINATION_CURRENCY: null,
+
+	// AJAX Send/Response actions.
 	REQUEST_CONVERSION_RATE: null,
 	RECEIVED_CONVERSION_RATE: null,
+
+	REQUEST_FEES: null,
+	RECEIVED_FEES: null,
 })
-
-
-
-// FIXME: Prolly delete this...
-// Some people like to split up server actions vs UI actions. You could
-// separate them in different files, or by source like this
-export const PayloadSources = {
-	SERVER_ACTION: 'SERVER_ACTION',
-	VIEW_ACTION: 'VIEW_ACTION'
-}

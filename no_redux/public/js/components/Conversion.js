@@ -225,11 +225,13 @@ var Conversion = React.createClass({
             <select ref="originCurrency" value={this.state.originCurrency} onChange={this.handleCurrencyChange.bind(null, 'origin')}>
                 <option value="USD">USD</option>
                 <option value="EUR">EUR</option>
+                <option value="JPY">JPY</option>
             </select>
             to <input onChange={this.handleDestAmountChange} value={this.state.destinationAmount} />&nbsp;
             <select ref="destCurrency" value={this.state.destinationCurrency} onChange={this.handleCurrencyChange.bind(null, 'destination')}>
                 <option value="USD">USD</option>
                 <option value="EUR">EUR</option>
+                <option value="JPY">JPY</option>
             </select>
 
 

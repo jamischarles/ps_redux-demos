@@ -90,15 +90,27 @@ function getRandomResponseTime() {
 // bogus values...
 var xRates = {
   USD_EUR: 1.5,
-  EUR_USD: 1 / 1.5
+  EUR_USD: 1 / 1.5,
+
+  USD_JPY: 108.81,
+  JPY_USD: 1 / 108.81,
+
+
+  EUR_JPY: 123.79,
+  JPY_EUR: 1 / 123.79
 }
 
 // in percentages
 var fees = {
   USD_USD: 2,
   USD_EUR: 15,
+  USD_JPY: 105,
   EUR_USD: 2,
-  EUR_EUR: 5
+  EUR_JPY: 70,
+  EUR_EUR: 5,
+  JPY_JPY: 2,
+  JPY_USD: 26,
+  JPY_EUR: 14
 }
 
 module.exports = router;

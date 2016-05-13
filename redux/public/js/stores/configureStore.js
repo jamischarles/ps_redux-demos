@@ -4,9 +4,9 @@
  * the store with reducers.
  *
  */
-import { createStore, applyMiddleware, compose } from 'redux'
-import thunk from 'redux-thunk' // needed for async actions
-import reducer from '../reducers'
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk'; // needed for async actions
+import reducer from '../reducers';
 
 
 // Redux middleware for console.logging actions
@@ -21,10 +21,9 @@ const logger = createLogger({
 })
 
 // create a store, and apply middleware
-const store = compose(
+const store = createStore(
+	reducer,
 	applyMiddleware(thunk, logger)
-)(createStore)(reducer)
+);
 
-
-export default store
-
+export default store;
